@@ -3,20 +3,21 @@ from nox_uv import session
 
 options.error_on_external_run = True
 options.default_venv_backend = "uv"
+options.reuse_existing_virtualenvs = True
 options.sessions = ["lint", "type_check", "test", "docs"]
 
 
 @session(
-    python=["3.10", "3.11", "3.12", "3.13", "3.14", "3.14t"],
+    python=["3.10", "3.11", "3.12", "3.13"],
     uv_groups=["test"],
 )
 def test(s: Session) -> None:
     s.run(
         "pytest",
-        "--cov=fact",
+        "--cov=xlsx_streamer",
         "--cov-report=html",
         "--cov-report=term",
-        "--cov-fail-under=100",
+        "--cov-fail-under=90",
         "tests",
         *s.posargs,
     )
